@@ -1,0 +1,20 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main # 當有 push 到 main 分支時觸發
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # 運行在 Ubuntu 最新版虛擬機
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 # 使用 v4 版本，確保兼容性
+
+    - name: Trigger Render Deploy Hook
+      # 這個步驟會呼叫 Render 的 Webhook URL，告知 Render 重新部署
+      # 您需要在 Render 設定中建立這個 Deploy Hook URL
+      run: |
+        curl -X POST -d {} ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
