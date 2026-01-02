@@ -239,6 +239,21 @@
             if(data.status === 'error') {
                 alert("錯誤: " + data.msg);
             } else {
+                // 若在 LINE App 內，嘗試發送訊息給官方帳號
+                if (liff.isInClient()) {
+                    const msg = `📝 會員資料\n姓名：${payload.name}\n電話：${payload.phone}\n生日：${payload.birthDate}\n地址：${payload.address}\n備用地址：${payload.address2 || '無'}`;
+                    liff.sendMessages([
+                        {
+                            type: 'text',
+                            text: msg
+                        }
+                    ]).then(() => {
+                        console.log("message sent");
+                    }).catch((err) => {
+                        console.log("error sending message", err);
+                    });
+                }
+
                 // 隱藏原本的註冊頁，顯示註冊成功頁
                 document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
                 document.getElementById('p-register-success').classList.add('active');
