@@ -151,5 +151,8 @@
 *   **Render 免費方案**：Render 的免費 Web Service 會在閒置 15 分鐘後進入休眠。第一次訪問時會有約 30-50 秒的喚醒時間。
 *   **Google Sheets 權限**：確保服務帳戶的 `client_email` 已被共享到 Google Sheets 試算表，並擁有編輯權限。
 
+# LIFF URL
+- https://liff.line.me/2008795367-LqjjCaaQ
+
 ---
 希望這份 README 文件對您有所幫助！
