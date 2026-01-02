@@ -153,24 +153,6 @@ def order():
     order_id = "ORD" + str(int(datetime.now().timestamp()))
     
     # 寫入: 訂單編號, UserId, 商品, 金額, 日期, 狀態, DeliveryLogs, PaymentStatus
-    
-    # 針對商品名稱進行正規化，確保 item_str 中的數量是實際盤數
-    actual_item_name = item_name # 實際寫入 Google Sheet 的商品名稱，可能修改
-    actual_qty = qty             # 實際盤數
-
-    if item_name == "土雞蛋11盤":
-        actual_qty = qty * 11
-        # 可以選擇保留原始資訊，例如改成 "土雞蛋(11盤優惠組)"
-        actual_item_name = "土雞蛋(11盤優惠組)"
-    elif item_name == "土雞蛋1盤":
-        actual_qty = qty * 1
-        actual_item_name = "土雞蛋"
-
-    # 組合商品字串，例如: "土雞蛋 x22 (備註: 放門口)"
-    item_str_for_sheet = f"{actual_item_name} x{actual_qty}"
-    if remarks:
-        item_str_for_sheet += f" ({remarks})"
-
     sheet.append_row([
         order_id,
         user_id,
@@ -181,6 +163,19 @@ def order():
         "",         # DeliveryLogs
         "未付款"     # PaymentStatus
     ])
+
+    # === 發送 LINE 訂單確認訊息給客戶 ===
+    order_confirm_msg = (
+        f"✅ 訂單已送出\n"
+        f"訂單編號: {order_id}\n"
+        f"商品: {item_str_for_sheet}\n"
+        f"總金額: ${total_amount}\n"
+        f"付款狀態: 未付款\n"
+        f"\n我們將盡快處理您的訂單！"
+    )
+    send_line_push(user_id, order_confirm_msg)
+    # ==================================
+
     return jsonify({"status": "success", "msg": "訂購成功", "orderId": order_id})
 
 @app.route('/api/history', methods=['POST'])
