@@ -11,6 +11,7 @@
     *   支援 **雙配送地址** 設定。
 *   **商品訂購與支付**：
     *   直觀的商品選擇與數量調整。
+    *   **土雞蛋1盤優惠方案**：訂購「土雞蛋1盤」時，單價會依數量變動 (1-9盤: $250/盤, 10-19盤: $240/盤, 20盤以上: $230/盤)。
     *   **優惠組自動轉換**：選擇「11盤優惠組」，系統自動記錄為 11 盤。
     *   **多元付款方式**：
         *   **銀行轉帳/貨到付款**：傳統線下支付模式。
@@ -92,13 +93,24 @@ pip install -r requirements.txt
 
 ### 4. 啟動服務
 **本地開發 (使用 ngrok)**:
-```bash
-# 1. 啟動 ngrok 取得公開網址
-ngrok http 5000
+要啟動本地開發環境，您需要運行兩個獨立的指令：
 
-# 2. 設定環境變數並啟動 App (替換為 ngrok 網址)
-APP_BASE_URL=https://xxxx.ngrok-free.dev python app.py
-```
+1.  **啟動 Flask 應用程式**：
+    ```bash
+    python3 app.py
+    ```
+    此指令會啟動後端服務，通常在 `http://localhost:5000` 運行。
+
+2.  **啟動 ngrok 以取得公開網址**：
+    ```bash
+    ngrok http 5000
+    ```
+    執行此指令後，`ngrok` 會提供一個公開的 URL (例如 `https://xxxx.ngrok-free.dev`)。請將此 URL 複製下來，並在 `.env` 檔案中設定 `APP_BASE_URL` 為此 ngrok 網址，或在啟動 Flask App 前以環境變數形式傳入。
+    
+    例如 (在新的終端機中運行 Flask App，並替換為您的 ngrok 網址):
+    ```bash
+    APP_BASE_URL=https://xxxx.ngrok-free.dev python3 app.py
+    ```
 *   前台入口：使用 ngrok 網址 (https://xxxx.ngrok-free.dev)
 *   後台入口：https://xxxx.ngrok-free.dev/admin
 
